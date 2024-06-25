@@ -3,8 +3,8 @@ workflows:
     name: Unity iOS Build
     environment:
       vars:
-        UNITY_VERSION: "2020.3.25f1"  # Ensure this matches the installed version
-        XCODE_PROJECT: "Unity-iPhone.xcodeproj"  # Correct
+        UNITY_VERSION: "2020.3.25f1"
+        XCODE_PROJECT: "Unity-iPhone.xcodeproj"
         XCODE_SCHEME: "Unity-iPhone"
     triggering:
       events:
@@ -19,15 +19,14 @@ workflows:
           hdiutil detach "/Volumes/Unity Hub"
           echo "Installing Unity ${UNITY_VERSION} with iOS Build Support..."
           /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless install --version ${UNITY_VERSION} --module ios
-      - name: Install CocoaPods dependencies
-        script: |
-          cd $CM_BUILD_DIR/ios
-          pod install
       - name: Build Xcode project
         script: |
+          echo "Building Xcode project..."
+          cd $CM_BUILD_DIR/Unity-iPhone  # Ensure this path is correct for your project structure
           xcodebuild -project $XCODE_PROJECT -scheme $XCODE_SCHEME -sdk iphoneos -configuration Release archive -archivePath $HOME/output/Unity-iPhone.xcarchive
       - name: Export IPA
         script: |
-          xcodebuild -exportArchive -archivePath $HOME/output/Unity-iPhone.xcarchive -exportPath $HOME/output -exportOptionsPlist $CM_BUILD_DIR/ios/exportOptions.plist
+          echo "Exporting IPA..."
+          xcodebuild -exportArchive -archivePath $HOME/output/Unity-iPhone.xcarchive -exportPath $HOME/output -exportOptionsPlist $CM_BUILD_DIR/Unity-iPhone/exportOptions.plist
     artifacts:
       - $HOME/output/*.ipa
