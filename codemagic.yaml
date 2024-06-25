@@ -13,7 +13,7 @@ workflows:
       - name: Set up Unity
         script: |
           echo "Setting up Unity..."
-          wget https://beta.unity3d.com/download/46e2b4dded75/MacEditorTargetInstaller/UnitySetup-iOS-Support-for-Editor-2020.3.25f1.pkg
+          wget https://download.unity3d.com/download_unity/46e2b4dded75/MacEditorTargetInstaller/UnitySetup-iOS-Support-for-Editor-2020.3.25f1.pkg
           sudo installer -pkg UnitySetup-iOS-Support-for-Editor-2020.3.25f1.pkg -target /
       - name: Install CocoaPods dependencies
         script: |
