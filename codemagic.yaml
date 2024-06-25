@@ -3,8 +3,8 @@ workflows:
     name: Unity iOS Build
     environment:
       vars:
-        UNITY_VERSION: "2020.3.25f1"  # Correct version
-        XCODE_PROJECT: "Unity-iPhone.xcodeproj"  # Correct file
+        UNITY_VERSION: "2020.3.25f1"  # Ensure this matches the installed version
+        XCODE_PROJECT: "Unity-iPhone.xcodeproj"  # Correct
         XCODE_SCHEME: "Unity-iPhone"
     triggering:
       events:
@@ -12,9 +12,13 @@ workflows:
     scripts:
       - name: Set up Unity
         script: |
-          echo "Setting up Unity..."
-          wget https://download.unity3d.com/download_unity/46e2b4dded75/MacEditorTargetInstaller/UnitySetup-iOS-Support-for-Editor-2020.3.25f1.pkg
-          sudo installer -pkg UnitySetup-iOS-Support-for-Editor-2020.3.25f1.pkg -target /
+          echo "Installing Unity Hub..."
+          curl -O https://public-cdn.cloud.unity3d.com/hub/prod/UnityHubSetup.dmg
+          hdiutil attach UnityHubSetup.dmg
+          sudo cp -R "/Volumes/Unity Hub/Unity Hub.app" /Applications
+          hdiutil detach "/Volumes/Unity Hub"
+          echo "Installing Unity ${UNITY_VERSION} with iOS Build Support..."
+          /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless install --version ${UNITY_VERSION} --module ios
       - name: Install CocoaPods dependencies
         script: |
           cd $CM_BUILD_DIR/ios
