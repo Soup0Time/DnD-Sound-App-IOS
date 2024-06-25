@@ -3,8 +3,8 @@ workflows:
     name: Unity iOS Build
     environment:
       vars:
-        UNITY_VERSION: "2020.3.25f1"  # Adjust this to your Unity version
-        XCODE_WORKSPACE: "Unity-iPhone.xcworkspace"
+        UNITY_VERSION: "2020.3.25f1"  # correct
+        XCODE_WORKSPACE: "Unity-iPhone.xcodeproj" #correct
         XCODE_SCHEME: "Unity-iPhone"
     triggering:
       events:
