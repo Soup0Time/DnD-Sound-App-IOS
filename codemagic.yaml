@@ -22,11 +22,11 @@ workflows:
       - name: Build Xcode project
         script: |
           echo "Building Xcode project..."
-          cd $CM_BUILD_DIR/Unity-iPhone  # Ensure this path is correct for your project structure
+          cd $CM_BUILD_DIR  # Navigate to the root directory where Unity-iPhone.xcodeproj is located
           xcodebuild -project $XCODE_PROJECT -scheme $XCODE_SCHEME -sdk iphoneos -configuration Release archive -archivePath $HOME/output/Unity-iPhone.xcarchive
       - name: Export IPA
         script: |
           echo "Exporting IPA..."
-          xcodebuild -exportArchive -archivePath $HOME/output/Unity-iPhone.xcarchive -exportPath $HOME/output -exportOptionsPlist $CM_BUILD_DIR/Unity-iPhone/exportOptions.plist
+          xcodebuild -exportArchive -archivePath $HOME/output/Unity-iPhone.xcarchive -exportPath $HOME/output -exportOptionsPlist $CM_BUILD_DIR/exportOptions.plist
     artifacts:
       - $HOME/output/*.ipa
